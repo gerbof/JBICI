@@ -1,0 +1,154 @@
+<ui:composition 
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+
+template="/WEB-INF/facelets/templates/base.xhtml">
+
+
+<ui:define name="contenido">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+ 		<c:choose>
+		     <c:when test="#{sessionScope.operacionRegistro=='edicion'}">
+		        <h3 class="panel-title">Edicion de Usuario</h3>
+		    </c:when>
+		    <c:otherwise>
+		    	<h3 class="panel-title">Registro Nuevo Usuario</h3>
+		    </c:otherwise>
+		</c:choose>
+        
+    </div>
+    <div class="panel-body">
+	    <h:form class="fos_user_registration_register"> 
+	    <h:messages infoStyle="color: blue;list-style:none;" errorStyle="color:red;list-style:none;"/> 
+	    	<div>
+	             <div style="width: 250px; float: left; margin: 25px;">
+	                 <div>
+	                     <h:outputLabel for="nombre" value="Nombres:" />
+	                     <br />
+	                     <h:inputText id="nombre" pt:placeholder="Nombre" value="#{controllerRegistro.nombre}" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+	                 <div>
+	                     <h:outputLabel for="apellido" value="Apellido:" /> 
+	                     <br />
+	                     <h:inputText id="apellido" pt:placeholder="Apellido" value="#{controllerRegistro.apellido}" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+  	                 <div>
+	                     <h:outputLabel for="dni" value="Dni:" /> 
+	                     <br />
+	                     <h:inputText id="dni" pt:placeholder="DNI" value="#{controllerRegistro.dni}" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+	                 
+	                 <div>
+	                     <h:outputLabel for="sexo" value="Sexo:" /> 
+	                     <br />
+	                     <h:selectOneMenu id="sexo" value="#{controllerRegistro.sexo}" style="float: left;">
+						   <f:selectItem itemValue="Masculino" itemLabel="Masculino" />
+						   <f:selectItem itemValue="Femenino" itemLabel="Femenino" />	   							
+						</h:selectOneMenu>
+	                 </div>
+	                 <br /><br />
+	                 <div>
+	                     <h:outputLabel for="fecha" value="Fecha de Nacimiento:" />
+	                     <br />
+	                     <h:inputText id="fecha"  value="#{controllerRegistro.fecnac}" style="float: left; line-height: 20px;" required="true" pt:type="date" />
+	                 </div>
+	             </div>
+	             <div style="width: 250px; float: left; margin: 25px;">
+	                 <div>
+	                     <h:outputLabel for="domicilio" value="Domicilio:" /> 
+	                     <br />
+	                     <h:inputText id="domicilio" pt:placeholder="Domicilio" value="#{controllerRegistro.domicilio}" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+	                 <div>
+	                    <h:outputLabel for="email" value="Email:" />
+	                     <br />
+	                     <h:inputText id="email" pt:placeholder="Email" value="#{controllerRegistro.email}" pt:type="email" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+					<c:if test="${sessionScope.sessionUsuario!=null and sessionScope.operacionRegistro!='edicion'}">
+						<div>
+						   <h:outputLabel for="perfil" value="Perfil:" />
+						   <br />
+						   <h:selectOneMenu id="perfil" value="#{controllerRegistro.perfil}" style="float: left;">
+							   <f:selectItem itemValue="1" itemLabel="Administrador" /> 
+							   <f:selectItem itemValue="2" itemLabel="Usuario" />	   							
+							</h:selectOneMenu> 
+						</div>
+		                 <br /><br />
+		             </c:if>
+		             <c:if test="${sessionScope.sessionUsuario==null}">
+	                 <div>
+	                     <h:outputLabel for="user" value="Username:" />
+	                     <br />
+	                     <h:inputText id="user" pt:placeholder="Username" value="#{controllerRegistro.username}" style="float: left;" required="true"/>
+	                 </div>
+	                 <br /><br />
+	                 </c:if>
+	                 <c:if test="${sessionScope.operacionRegistro=='edicion'}">
+	                 	 <div>
+	                     <h:outputLabel for="password" value="Password:" />
+		                     <br />
+		                     <h:inputSecret id="password" pt:placeholder="Contraseña" value="#{controllerRegistro.contrasenia}" redisplay="true" required="true"/>
+		                 </div>
+		                 <br /><br />
+	                 </c:if>
+	                 
+	                 <section class="">  
+		             		<c:if test="${sessionScope.operacionRegistro=='edicion'}">
+		             			 <div>
+				                     <h:outputLabel value="Username:" />
+				                     <br />
+				                     <h:outputLabel value="#{controllerRegistro.username}" />
+				                     <br /><br />
+			                     </div>
+			                     <div>
+			                     	<h:outputLabel value="Activo:" />
+			                     	<br />
+				                  	<h:outputLabel value="#{controllerRegistro.activo}" />
+				                  	<br /><br />
+				                 </div>
+								<h:commandButton value="Modificar" action="#{controllerRegistro.editarUsuario()}" class="btn btn-primary" />
+							</c:if>
+							<c:if test="${sessionScope.operacionRegistro!='edicion'}">
+								<c:if test="${sessionScope.sessionUsuario==null}">
+									<h:link class="btn btn-primary" outcome="failLogin">Volver</h:link>
+								</c:if>
+								<h:commandButton value="Aceptar" action="#{controllerRegistro.altaUsuario()}" class="btn btn-primary" />
+							</c:if>	
+			            </section>
+			            <c:choose>
+						     <c:when test="#{sessionScope.operacionRegistro=='alta'}">
+						        <p>El password por defecto sera '1234' y el username el mail</p>
+						    </c:when>
+						</c:choose>        
+	             </div>	          	 
+	         </div>
+	    </h:form>
+    </div>
+</div>
+</ui:define>
+
+<ui:define name="menu">
+	<c:if test="${sessionScope.sessionUsuario!=null}">
+		<c:choose>
+			<c:when test="${sessionScope.perfil=='Administrador'}">
+				<ui:include src="/views/menuAdmin.xhtml" />
+			</c:when>
+			<c:when test="${sessionScope.perfil=='Usuario'}">
+				<ui:include src="/views/menuUser.xhtml" />
+			</c:when>
+		</c:choose>
+	</c:if>
+</ui:define>
+</ui:composition>
+
+

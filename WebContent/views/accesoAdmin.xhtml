@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:ui= "http://java.sun.com/jsf/facelets">
+<ui:composition template="/WEB-INF/facelets/templates/base.xhtml">
+
+	<ui:define name="menu">
+		<h:panelGroup>
+			<ui:include src="menuAdmin.xhtml"></ui:include>
+		</h:panelGroup>
+	</ui:define>
+	
+	<ui:define name="contenido">
+		<h:panelGroup layout="block" >
+			<h2>Bienvenido: <h:outputText value="#{controllerSession.usuario}"/></h2>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

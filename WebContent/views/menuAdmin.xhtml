@@ -1,0 +1,40 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:outputScript name="js/modernizr.custom.js" target="body"/>
+	<h:outputScript name="js/ytmenu.js" target="body"/>
+
+<div class="side">
+		<nav class="dr-menu dr" id="menuAdmin">
+			<div class="dr-trigger"><span class="dr-icon dr-icon-menu"></span><h:outputLink value="#" class="dr-label">Menu</h:outputLink></div>
+				<ul>
+					<h:form id="menu-links">
+							<li>
+								<h:commandLink value="Inicio" styleClass="dr-icon dr-icon-home" action="#{controllerAdmin.devolverPag('inicioAdmin')}"/>
+							</li>
+							<li>
+								<h:commandLink value="Mi Perfil" styleClass="dr-icon dr-icon-perfil" action="#{controllerRegistro.edicionUsuario()}"/>
+							</li>
+							<li>
+								<h:commandLink value="Estaciones" styleClass="dr-icon dr-icon-station" action="#{controllerAdmin.devolverPag('TableEstaciones')}"/>
+							</li>
+							<li>
+								<h:commandLink value="Bicicletas" styleClass="dr-icon dr-icon-bike" action="#{controllerAdmin.devolverPag('TableBicicletas')}"/>
+							</li>
+						 	<li>	
+								<h:commandLink value="Usuarios" styleClass="dr-icon dr-icon-user" action="#{controllerAdmin.devolverPag('Table')}"/>
+							</li>
+							<li>	
+								<h:commandLink value="Estadisticas" styleClass="dr-icon dr-icon-bike" action="estadistica.html"/>
+							</li>
+							<li>
+								<h:commandLink value="Salir" styleClass="dr-icon dr-icon-switch" action="#{controllerSession.cerrarSession()}" />
+							</li>
+					</h:form>			
+				</ul>
+		</nav>
+</div>
+</ui:composition>

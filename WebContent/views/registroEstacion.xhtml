@@ -1,0 +1,100 @@
+<ui:composition 
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+
+template="/WEB-INF/facelets/templates/base.xhtml">
+
+
+<ui:define name="contenido">
+		
+<div class="panel panel-primary">
+	
+    <div class="panel-heading">
+ 		<c:choose>
+		     <c:when test="#{sessionScope.operacionRegistro=='edicion'}">
+		        <h3 class="panel-title">Edicion de Estación</h3>
+		    </c:when>
+		    <c:otherwise>
+		    	<h3 class="panel-title">Nueva Estación</h3>
+		    </c:otherwise>
+		</c:choose>
+        
+    </div>
+    <div class="panel-body">
+	    <h:form class="fos_user_registration_register"> 
+	    <h:messages infoStyle="color: blue;list-style:none;" errorStyle="color:red;list-style:none;"/> 
+    	<div>
+             <div style="width: 231px; float: left; margin: 7px;">	                    
+                 <div>
+                     <h:outputLabel for="nombre" value="Nombre de Estación:" />
+                     <br/>
+                     <h:inputText id="nombre" value="#{controllerEstaciones.nombre}" style="float: left;" required="true"/>
+                 </div>
+                 <div>
+                 	<h:outputLabel for="ubicacion" value="Ubicacion:"/>
+                 	<c:if test="${sessionScope.operacionRegistro=='alta'}">
+                 		<p>* Arrastre el marcador del mapa en la ubicación deseada</p>
+                 	 </c:if>
+                 	<h:inputText id="ubicacion" value="#{controllerEstaciones.ubicacion}" style="float: left;" required="true"/>
+                 </div>
+                
+                 <c:if test="${sessionScope.operacionRegistro=='edicion'}">
+                     <div>
+                     	<h:outputLabel for="cantBici" value="Cantidad de bicicletas:" />
+                     	<br/>
+                     	<h:inputText id="cantBici" value="#{controllerEstaciones.cantBici}" style="float: left;" required="true"/>
+                 	</div>
+                 </c:if>
+             </div>
+             <div style="width: 250px; float: left; margin: 7px;">
+                 <div>
+                     <h:outputLabel for="cantLibres" value="Cantidad de lugares disponibles:" /> 
+                     <br />
+                     <h:inputText id="cantLibres" value="#{controllerEstaciones.cantLibres}" style="float: left;" required="true"/>
+                 </div>
+                 <div>
+                     <h:outputLabel for="estado" value="Estado de la estacion:" /> 
+                     <br />
+                     <h:selectOneMenu id="estado" value="#{controllerEstaciones.estado}">
+							<f:selectItems value="#{controllerEstaciones.estados}" />		   
+					</h:selectOneMenu>
+                 </div>
+                 <div>
+                     <h:outputLabel for="codPostal" value="CP:" /> 
+                     <br />
+                     <h:inputText id="codPostal" value="#{controllerEstaciones.codPostal}" style="float: left;" required="true"/>
+                 </div>
+              </div>
+             <div style="width: 130px; float: left; margin: 7px; margin-top: 26px;"> 
+                 <section class="">  
+	             		<c:if test="${sessionScope.operacionRegistro=='edicion'}">
+							<h:commandButton value="Modificar" action="#{controllerEstaciones.editarEstacion()}" class="btn btn-primary" />
+						</c:if>
+						<c:if test="${sessionScope.operacionRegistro!='edicion'}">
+							<h:commandButton value="Agregar" action="#{controllerEstaciones.altaEstacion()}" class="btn btn-primary" />
+						</c:if>	
+		          </section>     
+             </div>	          	 
+         </div>
+	    </h:form>
+	    <h:panelGroup layout="block" >
+				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtdf6g9YPkEEj_VC7z46D6usKcM0eJi6c&amp;sensor=false" />
+				<h:outputScript name="js/mapaRecordE.js" target="body" />
+				<div id="mapa-content"></div>
+		</h:panelGroup>
+	    
+    </div>
+ 
+</div>
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuAdmin.xhtml" />
+</ui:define>
+</ui:composition>
+
+

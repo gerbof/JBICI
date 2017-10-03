@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:ui= "http://java.sun.com/jsf/facelets">
+<ui:composition template="/WEB-INF/facelets/templates/base.xhtml">
+
+	<ui:define name="menu">
+		<h:panelGroup>
+			<ui:include src="menuUser.xhtml"></ui:include>
+		</h:panelGroup>
+	</ui:define>
+	
+	<ui:define name="contenido">
+		<h:panelGroup layout="block" >
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtdf6g9YPkEEj_VC7z46D6usKcM0eJi6c&amp;sensor=false" />
+			<h:outputScript name="js/mapa.js" target="body" />
+			<h2>Bienvenido: <h:outputText value="#{controllerSession.usuario}"/></h2>
+			<input type="hidden" id="perfil" name="perfil" value="#{controllerSession.usuario}" />
+			<div id="referencias">
+				<br/>
+				<h3>Estaciones en estado Operativas</h3>
+				<div class="ed-map__legends">
+				    <ul class="ed-map__legend ed-map__legend-pins">
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-in-service">
+					        <img src="../../resources/img/icon-op.png"/>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div id="mapa-content"></div>
+			<div id="info" style="display:none;"></div>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

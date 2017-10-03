@@ -1,0 +1,43 @@
+#mapCanvas{
+  width: 800px;
+  height: 600px;
+  margin: 1% 10%;
+}
+
+#info{
+position: absolute;
+    margin-top: -444px;
+    margin-left: 156px;
+    background-color: #F3FFF9;
+    width: 27%;
+    height: 424px;
+}
+
+#controles{
+	display: block;
+    position: absolute;
+    padding-left: 56%;
+}
+
+#referencias{
+	box-shadow: 0px -1px rgba(26, 40, 210, 0.1);
+    margin-top: 1em;
+}
+
+.ed-map__legends{
+    margin-bottom: 1em;
+    position: relative;
+}
+
+.ed-map__legend ed-map__legend-pins{
+	display: inline-block;
+    vertical-align: top;
+    list-style: none;
+}
+
+.ed-map__legend-pins__pin {
+	text-align:center;
+    display: inline-block;
+    width: 129px;
+    vertical-align: top;
+}

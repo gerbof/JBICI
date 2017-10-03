@@ -1,0 +1,82 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/facelets/templates/base.xhtml">
+
+<ui:define name="contenido">
+	
+	<h2 style='text-align:center;'>Estaciones</h2>
+	
+	<h:panelGroup layout="block" >
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtdf6g9YPkEEj_VC7z46D6usKcM0eJi6c&amp;sensor=false" />
+			<h:outputScript name="js/stationsMap.js" target="body" />
+			
+			<div id="referencias">
+				<br/>
+				<h3>Referencias</h3>
+				<div class="ed-map__legends">
+				    <ul class="ed-map__legend ed-map__legend-pins">
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-in-service">
+					        <p><img src="../../resources/img/icon-op.png"/></p>
+					        <p>Operativa</p>
+					    </li>
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-empty">
+					        <p><img src="../../resources/img/icon-close.png"/></p>
+					        <p>Cerrada</p>
+					    </li>
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-planned">
+					        <p><img src="../../resources/img/icon-const.png"/></p>
+					        <p>En construccion</p>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div id="controles">
+				<h3>Estaciones en estado:</h3>
+				 <label class="checkbox">
+    				<input type="checkbox" name="operativas" value="Operativa" class="control" checked="checked" /> Operativas
+    			</label>
+  					
+  				<label class="checkbox">
+    				<input type="checkbox" name="construccion" value="En construccion" class="control" checked="checked" /> En construcción
+    			</label>
+  				
+  				<label class="checkbox">
+    				<input type="checkbox" name="cerrada" value="Cerrada" class="control" checked="checked" /> Cerradas
+    			</label> 
+    			<BR />
+    			<h:form>
+					<h:commandButton value="Agregar nueva estación" action="#{controllerEstaciones.registro('alta',null)}" class="btn btn-info"/>
+				</h:form> 
+				
+				<h:form id="usuarios">
+					<h:dataTable value="#{controllerEstaciones.listStation()}" var="e" styleClass="table table-hover">
+						<h:column>
+							<f:facet name="header">Estacion</f:facet>
+							<h:outputText value="#{e.nombre}"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Estado Actual</f:facet>
+							<h:outputText value="#{e.estado.descripcion}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Acciones</f:facet>
+					    	<h:commandButton action="#{controllerEstaciones.registro('edicion',e.nombre)}" value="Editar" class="btn btn-info"/>  		
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</div>
+			<div id="mapa-content"></div>
+			
+	</h:panelGroup>
+
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuAdmin.xhtml" />
+</ui:define>
+</ui:composition>
+

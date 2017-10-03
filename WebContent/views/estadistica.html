@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="../resources/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../resources/css/estilos.css" />
+	<link rel="stylesheet" type="text/css" href="../resources/css/estilos2.css" />
+	<link rel="stylesheet" type="text/css" href="../resources/css/default.css" />
+	<link rel="stylesheet" type="text/css" href="../resources/css/component.css" />
+	
+	<script src="http://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript" ></script>
+	<script src="http://www.google.com/jsapi" type="text/javascript" ></script>
+
+	<script type="text/javascript">
+		google.load("visualization", "1", {packages:["corechart"]});
+		google.setOnLoadCallback(drawChart);
+		
+		function drawChart(entidad) {
+			
+			var url = "../../rest/estadistica?entidad="+entidad; // Completar con URL del servicio REST
+			$.getJSON(url, function(data){
+
+			var googleData = new google.visualization.DataTable();
+			googleData.addColumn('string', 'Operacion');
+			googleData.addColumn('number', 'Cantidad');
+			var total = data.length;
+
+			for (i = 0; i < total; i++)
+			{
+				googleData.addRow([data[i].operacion, data[i].cantidad]); 
+			
+			}
+			if(entidad == ''){
+				entidad = 'Todas';
+			}
+			var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+			chart.draw(googleData, {width: 900, height: 500, title: 'Operaciones sobre Entidad '+entidad, is3D: true});
+		});
+	}
+	</script>
+	<title>JBici | JYAASI | UNLP</title>
+</head>
+<body onLoad="drawChart('')">
+	<div class="containerJ">
+		<header class="clearfix">
+			<h:graphicImage id="logo" value="/resources/img/logo.png" alt="bicicleta pública LaPlataEnBici/JBici"  />
+			<h1>Sistema de bicicleta pública <span>LaPlataEnBici/JBici</span></h1>
+		</header>
+		<div class="main" style="  min-height: 500px;">
+			<div id="contenido">
+				<label>Seleccione la entidad para ver la estadistica: </label>
+				<select id="choose" name="choose" onChange="drawChart(this.value)" style="color:black;">
+				  <option value="">Seleccione Entidad...</option>	
+				  <option value="Activo">Activo</option>
+				  <option value="Alquiler">Alquiler</option>
+				  <option value="AptaUso">AptaUso</option>
+				  <option value="Bicicleta">Bicicleta</option>
+				  <option value="Cerrada">Cerrada</option>
+				  <option value="Denunciada">Denunciada</option>
+				  <option value="EnConstruccion">EnConstruccion</option>
+				  <option value="EnDesuso">EnDesuso</option>
+				  <option value="EnReparacion">EnReparacion</option>
+				  <option value="Estacion">Estacion</option>
+				  <!-- <option value="Estado">Estado</option> -->
+				  <!-- <option value="EstadoBici">EstadoBici</option> -->
+				  <option value="Historial">Historial</option>
+				  <option value="Historico">Historico</option>
+				  <option value="Operativa">Operativa</option>
+				  <option value="PerfilDeAdministrador">PerfilDeAdministrador</option>
+				  <option value="PerfilDeUsuario">PerfilDeUsuario</option>
+				  <option value="Persona">Persona</option>
+				</select>
+				<div id="chart_div"></div>
+			</div>
+		</div>
+		<footer class="footer">
+			&copy; Copyright Bof/Sivori - Java y Aplicaciones Avanzadas sobre Internet 2015
+		</footer>
+	</div>
+</body>
+</html>

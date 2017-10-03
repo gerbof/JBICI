@@ -1,0 +1,59 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/facelets/templates/base.xhtml">
+
+<ui:define name="contenido">
+	
+	<h2>Tabla de Bicicletas</h2>
+	
+	<h:panelGroup id="loading" layout="block" >
+			<h:graphicImage value="/resources/img/loader.gif" alt="Cargando"  />
+	</h:panelGroup>
+	<h:form id="usuarios">
+			<h:dataTable value="#{controllerBici.listBicis()}" var="l"
+						 styleClass="table table-hover">
+				
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value="#{l.id}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Fecha Ingreso</f:facet>
+					<h:outputText value="#{l.fechaIngreso}">
+						<f:convertDateTime type="date" dateStyle="short"/>
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Ubicacion Actual</f:facet>
+					<h:outputText value="#{l.ubicacionActual.nombre}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Estado Actual</f:facet>
+					<h:outputText value="#{l.estadoActual.descripcion}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Acciones</f:facet>
+			    	<h:commandButton action="#{controllerBici.registro('edicion',l.id)}" value="Editar" class="btn btn-primary">
+						
+					</h:commandButton>   		
+				</h:column>
+			</h:dataTable>
+	</h:form>
+	<h:form>
+			<h:commandButton value="Agregar Bicicleta" action="#{controllerBici.registro('alta',0)}" class="btn btn-info"/>
+	</h:form> 
+
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuAdmin.xhtml" />
+</ui:define>
+</ui:composition>
+

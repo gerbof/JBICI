@@ -1,0 +1,85 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/facelets/templates/base.xhtml">
+
+<ui:define name="contenido">
+	
+	<h2>Tabla de Usuarios</h2>
+	
+	<h:panelGroup id="loading" layout="block" >
+			<h:graphicImage value="/resources/img/loader.gif" alt="Cargando"  />
+	</h:panelGroup>
+	<h:form id="usuarios">
+			<h:dataTable value="#{controllerAdmin.listUsers()}" var="l"
+						 styleClass="table table-hover">
+				
+				<h:column>
+					<f:facet name="header">Usuario</f:facet>
+					<h:outputText value="#{l.username}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">DNI</f:facet>
+					<h:outputText value="#{l.persona.dni}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Nombres</f:facet>
+					<h:outputText value="#{l.persona.nombres}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Apellido</f:facet>
+					<h:outputText value="#{l.persona.apellido}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">E-Mail</f:facet>
+					<h:outputText value="#{l.persona.email}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Fecha de Nacimiento</f:facet>
+					<h:outputText value="#{l.persona.fechaNacimiento}">
+						<f:convertDateTime type="date" dateStyle="short"/>
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Domicilio</f:facet>
+					<h:outputText value="#{l.persona.domicilio}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Sexo</f:facet>
+						<h:outputText value="#{l.persona.sexo}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Activo</f:facet>
+					<h:outputText value="#{l.activo}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Acciones</f:facet>
+			    	<h:commandButton action="#{controllerAdmin.actinact()}" value="Hab/Deshab" class="btn btn-primary">
+						<f:setPropertyActionListener target="#{controllerAdmin.id}" value="#{l.username}"/>
+						<f:setPropertyActionListener target="#{controllerAdmin.activo}" value="#{l.activo}"/>
+					</h:commandButton>   		
+				</h:column>
+			</h:dataTable>
+	</h:form>
+	<h:form>
+			<h:commandButton value="Agregar Usuario" action="#{controllerLogin.registro('alta')}" class="btn btn-info"/>
+	</h:form> 
+
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuAdmin.xhtml" />
+</ui:define>
+</ui:composition>
+

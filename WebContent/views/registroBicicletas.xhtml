@@ -1,0 +1,125 @@
+<ui:composition 
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+
+template="/WEB-INF/facelets/templates/base.xhtml">
+
+
+<ui:define name="contenido">
+		
+<div class="panel panel-primary">
+	
+    <div class="panel-heading">
+ 		<c:choose>
+		     <c:when test="#{sessionScope.operacionRegistro=='edicion'}">
+		        <h3 class="panel-title">Edicion de Bicicleta</h3>
+		    </c:when>
+		    <c:otherwise>
+		    	<h3 class="panel-title">Nueva Bicicleta</h3>
+		    </c:otherwise>
+		</c:choose>
+        
+    </div>
+    <div class="panel-body">
+	    <h:form class="fos_user_registration_register"> 
+	    <h:messages infoStyle="color: blue;list-style:none;" errorStyle="color:red;list-style:none;"/> 
+	    	<div>
+	             <div style="width: 250px; float: left; margin: 7px;">	                    
+	                 <div>
+	                     <h:outputLabel for="estado" value="Estado:" /> 
+	                     <br />
+	                     <h:selectOneMenu id="estado" value="#{controllerBici.estado}">
+						    <f:selectItems value="#{controllerBici.estados}" />
+					     </h:selectOneMenu>
+	                 </div>
+	             </div>
+	             <div style="width: 250px; float: left; margin: 7px;">
+	                 <div>
+	                     <h:outputLabel for="estacion" value="Estacion:" /> 
+	                     <br />
+	                     <h:selectOneMenu id="estacion" value="#{controllerBici.estacion}">
+							<f:selectItems value="#{controllerBici.estaciones}" />		   
+						</h:selectOneMenu>
+	                 </div>
+	              </div>
+	              <h:outputLabel>NOTA: Solo se listaran las estaciones habilitadas y con lugar disponible</h:outputLabel>
+	              <div style="width: 130px; float: right;"> 
+	                 <section class="">  
+		             		<c:if test="${sessionScope.operacionRegistro=='edicion'}">
+								<h:commandButton value="Modificar" action="#{controllerBici.editarBici()}" class="btn btn-primary" />
+								<h:commandButton value="Cambiar Estado" action="#{controllerBici.editarEstadoBici()}" class="btn btn-primary" />
+							</c:if>
+							<c:if test="${sessionScope.operacionRegistro!='edicion'}">
+								<h:commandButton value="Aceptar" action="#{controllerBici.altaBici()}" class="btn btn-primary" />
+							</c:if>	
+			            </section>     
+	             </div>	          	 
+	         </div>
+	         <c:if test="${sessionScope.operacionRegistro=='edicion'}">
+	         	<span>*Solo se listaran estaciones habilitadas, en caso de querer modificar solo el estado de la bicicleta presione Cambiar Estado en lugar de Modificar</span>
+	         </c:if>
+	    </h:form>
+    </div>
+    
+    <h:panelGroup layout="block" >
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtdf6g9YPkEEj_VC7z46D6usKcM0eJi6c&amp;sensor=false" />
+			<h:outputScript name="js/stationsMap.js" target="body" />
+			
+			<div id="controles">
+				<h3>Estaciones en estado:</h3>
+				 <label class="checkbox">
+    				<input type="checkbox" name="operativas" value="Operativa" class="control" checked="checked" /> Operativas
+    			</label>
+  					
+  				<label class="checkbox">
+    				<input type="checkbox" name="construccion" value="En construccion" class="control" checked="checked" /> En construcción
+    			</label>
+  				
+  				<label class="checkbox">
+    				<input type="checkbox" name="cerrada" value="Cerrada" class="control" checked="checked" /> Cerradas
+    			</label> 
+			</div>
+			<div id="mapa-content"></div>
+		</h:panelGroup>
+</div>
+<div id="referencias">
+				<br/>
+				<h3>Referencias</h3>
+				<div class="ed-map__legends">
+				    <ul class="ed-map__legend ed-map__legend-pins">
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-in-service">
+					        <p><img src="../../resources/img/icon-op.png"/></p>
+					        <p>Operativa</p>
+					    </li>
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-empty">
+					        <p><img src="../../resources/img/icon-close.png"/></p>
+					        <p>Cerrada</p>
+					    </li>
+					    <li class="ed-map__legend-pins__pin ed-map__legend-pins__pin-planned">
+					        <p><img src="../../resources/img/icon-const.png"/></p>
+					        <p>En construccion</p>
+					    </li>
+					</ul>
+				</div>
+			</div>
+</ui:define>
+
+<ui:define name="menu">
+	<c:if test="${sessionScope.sessionUsuario!=null}">
+		<c:choose>
+			<c:when test="${sessionScope.perfil=='Administrador'}">
+				<ui:include src="/views/menuAdmin.xhtml" />
+			</c:when>
+			<c:when test="${sessionScope.perfil=='Usuario'}">
+				<ui:include src="/views/menuUser.xhtml" />
+			</c:when>
+		</c:choose>
+	</c:if>
+</ui:define>
+</ui:composition>
+
+

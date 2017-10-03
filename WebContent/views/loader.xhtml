@@ -1,0 +1,28 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/facelets/templates/base.xhtml">
+
+<ui:define name="contenido">
+	
+	<h2>Loader de datos</h2>
+	
+		<c:choose>
+		    <c:when test="#{sessionScope.loader=='0'}">
+		        <h:outputLabel>El loader ya se ha cargado correctamente</h:outputLabel>
+		    </c:when>
+		    <c:otherwise>
+		    	<h:outputLabel>Carga exitosa</h:outputLabel>
+		    </c:otherwise>
+		</c:choose>
+	
+
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuAdmin.xhtml" />
+</ui:define>
+</ui:composition>

@@ -1,0 +1,55 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/facelets/templates/base.xhtml">
+
+<ui:define name="contenido">
+	
+	<h2>Tabla de Alquileres Activos</h2>
+	
+	<h:panelGroup id="loading" layout="block" >
+			<h:graphicImage value="/resources/img/loader.gif" alt="Cargando"  />
+	</h:panelGroup>
+	<h:form id="usuarios">
+			<h:dataTable value="#{controllerBici.listBicisActuales()}" var="a"
+						 styleClass="table table-hover">
+				
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value="#{a.id}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Fecha Retiro</f:facet>
+					<h:outputText value="#{a.fechaHoraRetiro}">
+						<f:convertDateTime type="date" dateStyle="short"/>
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Estacion Retiro</f:facet>
+					<h:outputText value="#{a.estacionRetiro.nombre}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Bicicleta</f:facet>
+					<h:outputText value="#{a.bicicleta.id}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Acciones</f:facet>
+			    	<h:commandButton action="#{controllerBici.denunciar(a.bicicleta.id)}" value="Denunciar" class="btn btn-primary">
+						
+					</h:commandButton>   		
+				</h:column>
+			</h:dataTable>
+	</h:form>
+</ui:define>
+
+<ui:define name="menu">
+	<ui:include src="/views/menuUser.xhtml" />
+</ui:define>
+</ui:composition>
+
